@@ -70,6 +70,11 @@ public class BackgroundPanel extends JPanel {
         guy.setY(100);
         guy.setRatio(0.25);
         blindGuy.add(guy);
+        BlindGuy guy1 = new BlindGuy();
+        guy1.setX(500);
+        guy1.setY(500);
+        guy1.setRatio(0.125);
+        blindGuy.add(guy1);
         // to here
         
     }
