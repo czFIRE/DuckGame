@@ -17,6 +17,7 @@ import javax.imageio.ImageIO;
 public class BlindGuy {
 
     private final BufferedImage img;
+    private boolean alive = true;
     private int x, y;
     private double ratio = 0.125;
 
@@ -34,6 +35,14 @@ public class BlindGuy {
 
     public void setY (int a) {
         y = a;
+    }
+    
+    public void Die (){
+        alive=false;
+    }
+    
+    public boolean isAlive () {
+        return alive;
     }
     
     /*void paintBlindGuy(Graphics g){

@@ -51,7 +51,7 @@ public class BackgroundPanel extends JPanel {
 
     }
     //private final BlindGuy blindGuy; first variant
-    private final ArrayList<BlindGuy> blindGuy;
+    public final ArrayList<BlindGuy> blindGuys;
     
     BufferedImage getImg() {
         return img;
@@ -62,19 +62,20 @@ public class BackgroundPanel extends JPanel {
         this.setLayout(new BorderLayout());
         this.addMouseListener(new Mouse_tracker());
         //blindGuy = new BlindGuy(); first variant
-        blindGuy = new ArrayList<>();
+        blindGuys = new ArrayList<>();
         
         // doesn't belong here
         BlindGuy guy = new BlindGuy();
         guy.setX(80);
         guy.setY(100);
         guy.setRatio(0.25);
-        blindGuy.add(guy);
+        blindGuys.add(guy);
         BlindGuy guy1 = new BlindGuy();
         guy1.setX(500);
         guy1.setY(500);
         guy1.setRatio(0.125);
-        blindGuy.add(guy1);
+        guy1.Die();
+        blindGuys.add(guy1);
         // to here
         
     }
@@ -85,8 +86,8 @@ public class BackgroundPanel extends JPanel {
         g.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), null);
         /*for (int i=0;i<=blindGuy.size();i++) {
         }*/
-        blindGuy.forEach((current) -> {
-            current.paintBlindGuy(g);
+        blindGuys.forEach((current) -> {
+            if(current.isAlive()) current.paintBlindGuy(g);
         });
         //blindGuy.paintBlindGuy(g,0.25); first variant
         
