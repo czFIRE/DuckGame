@@ -25,31 +25,40 @@ public class BlindGuy {
         img = ImageIO.read(BackgroundPanel.class.getResourceAsStream("/game/resources/human.png"));
     }
 
-    public void setRatio (double a){
+    public void setRatio(double a) {
         ratio = a;
     }
-    
-    public void setX (int a) {
+
+    public double getRatio() {
+        return ratio;
+    }
+
+    public void setX(int a) {
         x = a;
     }
 
-    public void setY (int a) {
+    public void setY(int a) {
         y = a;
     }
-    
-    public void Die (){
-        alive=false;
+
+    public void Die() {
+        alive = false;
     }
-    
-    public boolean isAlive () {
+
+    public boolean isAlive() {
         return alive;
     }
-    
-    /*void paintBlindGuy(Graphics g){
-        g.drawImage(img, x, y, img.getWidth(), img.getHeight(), null);
-    }*/
-    
-    void paintBlindGuy(Graphics g/*, double ratio*/){
-        g.drawImage(img, x, y, (int) ((img.getWidth())*ratio), (int) (img.getHeight()*ratio), null);
+
+    public int[] getDims() {
+        int dims[] = new int[4];
+        dims[0] = x;
+        dims[1] = y;
+        dims[2] = (int) ((img.getWidth()) * ratio);
+        dims[3] = (int) (img.getHeight() * ratio);
+        return dims;
+    }
+
+    void paintBlindGuy(Graphics g) {
+        g.drawImage(img, x, y, (int) ((img.getWidth()) * ratio), (int) (img.getHeight() * ratio), null);
     }
 }
