@@ -12,6 +12,8 @@ import java.awt.Image;
 import java.awt.Point;
 import java.awt.PopupMenu;
 import java.awt.Toolkit;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -23,7 +25,7 @@ import javax.swing.JPanel;
  *
  * @author jvanek
  */
-public class BackgroundPanel extends JPanel {
+public class BackgroundPanel extends JPanel implements MouseListener {
 
     private final BufferedImage img;
 
@@ -41,7 +43,7 @@ public class BackgroundPanel extends JPanel {
         Image aim = toolkit.getImage(BackgroundPanel.class.getResource("/game/resources/mercedes_logo_adjusted.png"));
         Cursor cursor = toolkit.createCustomCursor(aim, new Point(0, 0), "mercedesCrosshair");
         f.setCursor(cursor);
-        
+
         return f;
 
     }
@@ -52,7 +54,7 @@ public class BackgroundPanel extends JPanel {
     }
     //private final BlindGuy blindGuy; first variant
     public final ArrayList<BlindGuy> blindGuys;
-    
+
     BufferedImage getImg() {
         return img;
     }
@@ -60,10 +62,9 @@ public class BackgroundPanel extends JPanel {
     private BackgroundPanel(BufferedImage img) throws IOException {
         this.img = img;
         this.setLayout(new BorderLayout());
-        this.addMouseListener(new Mouse_tracker());
-        //blindGuy = new BlindGuy(); first variant
+        this.addMouseListener(this);
         blindGuys = new ArrayList<>();
-        
+
         // doesn't belong here
         BlindGuy guy = new BlindGuy();
         guy.setX(80);
@@ -77,7 +78,7 @@ public class BackgroundPanel extends JPanel {
         guy1.Die();
         blindGuys.add(guy1);
         // to here
-        
+
     }
 
     @Override
@@ -87,10 +88,39 @@ public class BackgroundPanel extends JPanel {
         /*for (int i=0;i<=blindGuy.size();i++) {
         }*/
         blindGuys.forEach((current) -> {
-            if(current.isAlive()) current.paintBlindGuy(g);
+            if (current.isAlive()) {
+                current.paintBlindGuy(g);
+            }
         });
         //blindGuy.paintBlindGuy(g,0.25); first variant
-        
+
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent me) {
+        int mouseX = me.getX();
+        int mouseY = me.getY();
+        System.out.println("screen(X,Y) = " + mouseX + "," + mouseY);
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }
