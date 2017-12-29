@@ -10,7 +10,6 @@ import java.awt.Cursor;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Point;
-import java.awt.PopupMenu;
 import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -23,7 +22,7 @@ import javax.swing.JPanel;
 
 /**
  *
- * @author jvanek
+ * @author czFIRE
  */
 public class BackgroundPanel extends JPanel implements MouseListener {
 
@@ -36,7 +35,7 @@ public class BackgroundPanel extends JPanel implements MouseListener {
         BackgroundPanel p = createDefaultPane();
         f.add(p);
         // f.setSize(p.getImg().getWidth(), p.getImg().getHeight());
-        f.setSize(1400, 1050);
+        f.setSize(1200, 900);
         f.setResizable(false);
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Toolkit toolkit = Toolkit.getDefaultToolkit();
@@ -52,12 +51,12 @@ public class BackgroundPanel extends JPanel implements MouseListener {
         return new BackgroundPanel(ImageIO.read(BackgroundPanel.class.getResourceAsStream("/game/resources/backgroundimage.jpg"))); ////////
 
     }
-    //private final BlindGuy blindGuy; first variant
-    public final ArrayList<BlindGuy> blindGuys;
 
     BufferedImage getImg() {
         return img;
     }
+    
+    public final ArrayList<BlindGuy> blindGuys;
 
     private BackgroundPanel(BufferedImage img) throws IOException {
         this.img = img;
@@ -75,7 +74,6 @@ public class BackgroundPanel extends JPanel implements MouseListener {
         guy1.setX(500);
         guy1.setY(500);
         guy1.setRatio(0.125);
-        guy1.Die();
         blindGuys.add(guy1);
         // to here
 
@@ -85,22 +83,32 @@ public class BackgroundPanel extends JPanel implements MouseListener {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), null);
-        /*for (int i=0;i<=blindGuy.size();i++) {
-        }*/
-        blindGuys.forEach((current) -> {
-            if (current.isAlive()) {
-                current.paintBlindGuy(g);
-            }
-        });
-        //blindGuy.paintBlindGuy(g,0.25); first variant
-
+        /*blindGuys.forEach((current) -> {
+            current.paintBlindGuy(g);
+        });*/
+        for (BlindGuy blindGuy : blindGuys) {
+            blindGuy.paintBlindGuy(g);
+        }
     }
 
     @Override
     public void mouseClicked(MouseEvent me) {
         int mouseX = me.getX();
         int mouseY = me.getY();
-        System.out.println("screen(X,Y) = " + mouseX + "," + mouseY);
+        int dims[] = new int[4];
+        for (BlindGuy guy : blindGuys) {
+            dims = guy.getDims();
+            if (((mouseX > dims[0]) && (mouseX < (dims[0] + dims[2]))) && ((mouseY > dims[1]) && (mouseX < (dims[1] + dims[3])))) {
+                blindGuys.remove(guy);
+                System.out.println("Hit");
+                System.out.println(blindGuys.size());
+                
+                //add rerender
+                repaint();
+                
+                break;
+            }
+        }
     }
 
     @Override

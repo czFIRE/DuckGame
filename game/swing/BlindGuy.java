@@ -17,13 +17,14 @@ import javax.imageio.ImageIO;
 public class BlindGuy {
 
     private final BufferedImage img;
-    private boolean alive = true;
     private int x, y;
     private double ratio = 0.125;
 
     public BlindGuy() throws IOException {
         img = ImageIO.read(BackgroundPanel.class.getResourceAsStream("/game/resources/human.png"));
     }
+    
+    
 
     public void setRatio(double a) {
         ratio = a;
@@ -41,24 +42,16 @@ public class BlindGuy {
         y = a;
     }
 
-    public void Die() {
-        alive = false;
-    }
-
-    public boolean isAlive() {
-        return alive;
-    }
-
     public int[] getDims() {
         int dims[] = new int[4];
         dims[0] = x;
         dims[1] = y;
-        dims[2] = (int) ((img.getWidth()) * ratio);
+        dims[2] = (int) (img.getWidth() * ratio);
         dims[3] = (int) (img.getHeight() * ratio);
         return dims;
     }
 
     void paintBlindGuy(Graphics g) {
-        g.drawImage(img, x, y, (int) ((img.getWidth()) * ratio), (int) (img.getHeight() * ratio), null);
+        g.drawImage(img, x, y, (int) (img.getWidth() * ratio), (int) (img.getHeight() * ratio), null);
     }
 }

@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author jvanek
+ * @author czFIRE
  */
 public class Engine implements Runnable {
 
