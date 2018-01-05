@@ -19,12 +19,15 @@ public class BlindGuy {
     private final BufferedImage img;
     private int x, y;
     private double ratio = 0.125;
+    private int speed = 20;
 
     public BlindGuy() throws IOException {
         img = ImageIO.read(BackgroundPanel.class.getResourceAsStream("/game/resources/human.png"));
     }
-    
-    
+
+    public void setSpeed(int x) {
+        speed = x;
+    }
 
     public void setRatio(double a) {
         ratio = a;
@@ -36,6 +39,10 @@ public class BlindGuy {
 
     public void setX(int a) {
         x = a;
+    }
+
+    public int getX() {
+        return x;
     }
 
     public void setY(int a) {
@@ -53,5 +60,9 @@ public class BlindGuy {
 
     void paintBlindGuy(Graphics g) {
         g.drawImage(img, x, y, (int) (img.getWidth() * ratio), (int) (img.getHeight() * ratio), null);
+    }
+
+    public void update() {
+        x = x + speed;
     }
 }

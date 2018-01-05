@@ -5,6 +5,7 @@
  */
 package game.swing;
 
+import game.resources.engine.Engine;
 import java.awt.BorderLayout;
 import java.awt.Cursor;
 import java.awt.Graphics;
@@ -44,25 +45,26 @@ public class BackgroundPanel extends JPanel implements MouseListener {
         f.setCursor(cursor);
 
         return f;
-
     }
 
-    private static BackgroundPanel createDefaultPane() throws IOException {
+    public static BackgroundPanel createDefaultPane() throws IOException {
         return new BackgroundPanel(ImageIO.read(BackgroundPanel.class.getResourceAsStream("/game/resources/backgroundimage.jpg"))); ////////
-
     }
 
     BufferedImage getImg() {
         return img;
     }
-    
-    public final ArrayList<BlindGuy> blindGuys;
 
-    private BackgroundPanel(BufferedImage img) throws IOException {
+    private final ArrayList<BlindGuy> blindGuys;
+
+    public BackgroundPanel(BufferedImage img) throws IOException {
         this.img = img;
         this.setLayout(new BorderLayout());
         this.addMouseListener(this);
         blindGuys = new ArrayList<>();
+
+        Thread thread = Engine.createThread(this);
+        thread.start();
 
         // doesn't belong here
         BlindGuy guy = new BlindGuy();
@@ -91,10 +93,57 @@ public class BackgroundPanel extends JPanel implements MouseListener {
         }
     }
 
+    public void triggerRepaint() {
+        for (BlindGuy guy : blindGuys) {
+            guy.update();
+            if (guy.getX()>1200){
+                blindGuys.remove(guy);
+                break;
+            }
+        }
+        if (blindGuys.isEmpty()) {System.exit(0);}
+        repaint();
+    }
+
     @Override
     public void mouseClicked(MouseEvent me) {
         int mouseX = me.getX();
         int mouseY = me.getY();
+        /*System.out.println("***");
+        System.out.println(me.getX() + " " + me.getY());*/
+        
+        int dims[];
+        
+        for (BlindGuy guy : blindGuys) {
+            dims = guy.getDims();
+            if ((dims[0] + dims[2])>1200) dims[2] = 1200 - dims[0];
+            /*System.out.println("***");
+            for (int dim : dims) {
+                System.out.println(dim);
+            }
+            System.out.println("***");*/
+            if (((mouseX > dims[0]) && (mouseX < (dims[0] + dims[2]))) && ((mouseY > dims[1]) && (mouseY < (dims[1] + dims[3])))) {
+                blindGuys.remove(guy);
+                System.out.println("Hit");
+                System.out.println(blindGuys.size());
+
+                //add rerender
+                repaint();
+
+                if (blindGuys.isEmpty()) {
+                    System.exit(0);
+                }
+
+                break;
+            }
+        }
+    }
+
+    @Override
+    public void mousePressed(MouseEvent me) {
+        /*int mouseX = me.getX();
+        int mouseY = me.getY();
+        System.out.println(me.getX() + " " + me.getY());
         int dims[] = new int[4];
         for (BlindGuy guy : blindGuys) {
             dims = guy.getDims();
@@ -102,18 +151,17 @@ public class BackgroundPanel extends JPanel implements MouseListener {
                 blindGuys.remove(guy);
                 System.out.println("Hit");
                 System.out.println(blindGuys.size());
-                
+
                 //add rerender
                 repaint();
-                
+
+                if (blindGuys.isEmpty()) {
+                    System.exit(0);
+                }
+
                 break;
             }
-        }
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }*/
     }
 
     @Override

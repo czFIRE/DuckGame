@@ -6,8 +6,11 @@
 package game.resources.engine;
 
 import game.swing.BackgroundPanel;
+import game.swing.BlindGuy;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.Timer;
 
 /**
  *
@@ -21,35 +24,36 @@ public class Engine implements Runnable {
     private final BackgroundPanel bg;
 
     private Engine(BackgroundPanel background) {
-        this.bg = background;
+        bg = background;
+        System.out.println("Ahoj");
     }
-    
-    
 
     //Generate ducks
     @Override
     public void run() {
-
         //draw duck
-        
-        
-        
         while (true) {
             try {
-                Thread.sleep(50);
+                Thread.sleep(250);
+                //System.out.println("NEco");
+                bg.triggerRepaint();
             } catch (InterruptedException ex) {
                 Logger.getLogger(Engine.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
+
         }
-        //delete duck
         
+
+        //delete duck
+
+    /*Timer timer1; //little car panel for reference
+    timer1 = new Timer();
+    timer1.start();*/
     }
-    
+
     /*
     thread
     background panel argument
     bude se s tím tam hýbat
-    */
-
+     */
 }
