@@ -16,20 +16,9 @@ public class StartGame {
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }
+                
             }
         });
     }
 
 }
-
-    /*public static void main(String[] args) throws InterruptedException {
-        EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {                   
-                    Thread thread = Engine.createThread(null);
-                    thread.start();
-            }
-        });
-    }
-
-}*/

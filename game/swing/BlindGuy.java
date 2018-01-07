@@ -19,10 +19,18 @@ public class BlindGuy {
     private final BufferedImage img;
     private int x, y;
     private double ratio = 0.125;
-    private int speed = 20;
+    private int speed = 10;
 
     public BlindGuy() throws IOException {
         img = ImageIO.read(BackgroundPanel.class.getResourceAsStream("/game/resources/human.png"));
+    }
+    
+    public BlindGuy(int a, int b, float ra, int sp) throws IOException {
+        img = ImageIO.read(BackgroundPanel.class.getResourceAsStream("/game/resources/human.png"));
+        this.x = a;
+        this.y = b;
+        this.ratio = ra;
+        this.speed = sp;
     }
 
     public void setSpeed(int x) {
