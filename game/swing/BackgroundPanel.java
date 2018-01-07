@@ -34,8 +34,6 @@ public class BackgroundPanel extends JPanel implements MouseListener {
 
     private final BufferedImage img;
 
-    private static JLabel timeShower;
-
     private int score = 0;
 
     public static JFrame createDefaultFrame() throws IOException {
@@ -54,9 +52,6 @@ public class BackgroundPanel extends JPanel implements MouseListener {
         Cursor cursor = toolkit.createCustomCursor(aim, new Point(0, 0), "mercedesCrosshair");
         f.setCursor(cursor);
 
-        /*timeShower = new JLabel("time");
-        timeShower.setBounds(1090, 890, 100, 20);
-        f.add(timeShower);*/
         return f;
     }
 
@@ -77,18 +72,18 @@ public class BackgroundPanel extends JPanel implements MouseListener {
         this.setLayout(new BorderLayout());
         this.addMouseListener(this);
         blindGuys = new ArrayList<>();
-        /**
-         * Thread to generate guys
-         */
+
 
         /**
          * Thread to move with guys
          */
+        
         thread1 = Engine.createThread(this);
         thread1.start();
-        
-        BlindGuy guy2 = new BlindGuy(200, 700, 0.0625f, 25);
-        blindGuys.add(guy2);
+
+        /**
+         * Thread to generate guys
+         */
         
         thread2 = GenerateGuys.createThread(this);
         thread2.start();
@@ -96,30 +91,15 @@ public class BackgroundPanel extends JPanel implements MouseListener {
         /**
          * Shows time + stops app after given time
          */
+        
         exitTimer();
-
-        /* // doesn't belong here
-        BlindGuy guy = new BlindGuy();
-        guy.setX(80);
-        guy.setY(100);
-        guy.setRatio(0.25);
-        blindGuys.add(guy);
-        BlindGuy guy1 = new BlindGuy();
-        guy1.setX(500);
-        guy1.setY(500);
-        guy1.setRatio(0.125);
-        blindGuys.add(guy1);
-        // to here */
-
+        
     }
 
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), null);
-        /*blindGuys.forEach((current) -> {
-            current.paintBlindGuy(g);
-        });*/
         for (BlindGuy blindGuy : blindGuys) {
             blindGuy.paintBlindGuy(g);
         }
@@ -136,9 +116,7 @@ public class BackgroundPanel extends JPanel implements MouseListener {
             }
         }
         blindGuys.removeAll(guysToRemove);
-        /*if (blindGuys.isEmpty()) {
-            System.exit(0);
-        }*/
+
         repaint();
     }
 
@@ -151,10 +129,7 @@ public class BackgroundPanel extends JPanel implements MouseListener {
     public void mousePressed(MouseEvent me) {
         int mouseX = me.getX();
         int mouseY = me.getY();
-        /*System.out.println("***");
-        System.out.println(me.getX() + " " + me.getY());*/
 
-        //System.out.println("Click registered!                        2");
         int dims[];
 
         for (BlindGuy guy : blindGuys) {
@@ -162,22 +137,14 @@ public class BackgroundPanel extends JPanel implements MouseListener {
             if ((dims[0] + dims[2]) > 1200) {
                 dims[2] = 1200 - dims[0];
             }
-            /*System.out.println("***");
-            for (int dim : dims) {
-                System.out.println(dim);
-            }
-            System.out.println("***");*/
+
             if (((mouseX > dims[0]) && (mouseX < (dims[0] + dims[2]))) && ((mouseY > dims[1]) && (mouseY < (dims[1] + dims[3])))) {
                 blindGuys.remove(guy);
                 score += 1;
-                System.out.println("Hit");
-                System.out.println(blindGuys.size());
+                
+                /*System.out.println("Hit");
+                System.out.println(blindGuys.size());*/
 
-                /*if (blindGuys.isEmpty()) {
-                    System.exit(0);
-                }*/
-
-                //add rerender
                 repaint();
 
                 break;
@@ -187,17 +154,17 @@ public class BackgroundPanel extends JPanel implements MouseListener {
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
     }
 
     @Override
     public void mouseEntered(MouseEvent e) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       
     }
 
     private void exitTimer() {

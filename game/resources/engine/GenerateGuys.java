@@ -23,7 +23,6 @@ public class GenerateGuys implements Runnable {
 
     private GenerateGuys(BackgroundPanel background) {
         bg = background;
-        //System.out.println("Ahoj");
     }
 
     int x, y, speed, random;

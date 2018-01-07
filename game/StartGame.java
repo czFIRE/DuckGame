@@ -1,6 +1,5 @@
 package game;
 
-import game.resources.engine.Engine;
 import game.swing.BackgroundPanel;
 import java.awt.EventQueue;
 import java.io.IOException;
