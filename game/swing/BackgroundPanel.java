@@ -42,7 +42,7 @@ public class BackgroundPanel extends JPanel implements MouseListener {
     
     JLabel scorePainter;
     
-    private static JFrame f;
+    public static JFrame f;
 
     public static JFrame createDefaultFrame() throws IOException {
 
@@ -99,7 +99,7 @@ public class BackgroundPanel extends JPanel implements MouseListener {
          * Shows time + stops app after given time
          */
         
-        exitTimer();
+        exitTimer(this);
         
     }
 
@@ -174,7 +174,7 @@ public class BackgroundPanel extends JPanel implements MouseListener {
        
     }
 
-    private void exitTimer() {
+    private void exitTimer(BackgroundPanel bg) {
         timer = new Timer(5000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -183,9 +183,8 @@ public class BackgroundPanel extends JPanel implements MouseListener {
                 thread1.stop();
                 thread2.stop();
                 
-                FinalScreen fin = new FinalScreen(score);
+                FinalScreen fin = new FinalScreen(score, bg);
                 fin.setVisible(true);
-                //System.exit(0);
                 timer.stop();
                 
             }
