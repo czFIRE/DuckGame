@@ -14,6 +14,7 @@ import java.util.logging.Logger;
  *
  * @author czFIRE
  */
+
 public class GenerateGuys implements Runnable {
 
     public static Thread createThread(BackgroundPanel background) {

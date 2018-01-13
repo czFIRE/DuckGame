@@ -6,6 +6,7 @@
 package game.swing;
 
 import game.resources.engine.Engine;
+import game.resources.engine.FinalScreen;
 import game.resources.engine.GenerateGuys;
 import java.awt.BorderLayout;
 import java.awt.Cursor;
@@ -20,6 +21,7 @@ import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -33,12 +35,18 @@ import javax.swing.Timer;
 public class BackgroundPanel extends JPanel implements MouseListener {
 
     private final BufferedImage img;
+    
+    Timer timer;
 
     private int score = 0;
+    
+    JLabel scorePainter;
+    
+    private static JFrame f;
 
     public static JFrame createDefaultFrame() throws IOException {
 
-        JFrame f = new JFrame();
+        /*JFrame*/ f = new JFrame();
         f.setLayout(new BorderLayout());
 
         BackgroundPanel p = createDefaultPane();
@@ -73,7 +81,6 @@ public class BackgroundPanel extends JPanel implements MouseListener {
         this.addMouseListener(this);
         blindGuys = new ArrayList<>();
 
-
         /**
          * Thread to move with guys
          */
@@ -97,7 +104,7 @@ public class BackgroundPanel extends JPanel implements MouseListener {
     }
 
     @Override
-    public void paintComponent(Graphics g) {
+    public void paintComponent(Graphics g) throws ConcurrentModificationException {
         super.paintComponent(g);
         g.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), null);
         for (BlindGuy blindGuy : blindGuys) {
@@ -168,15 +175,19 @@ public class BackgroundPanel extends JPanel implements MouseListener {
     }
 
     private void exitTimer() {
-        Timer timer = new Timer(10000, new ActionListener() {
+        timer = new Timer(5000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
                 System.out.println("Score: " + score);
                 thread1.stop();
                 thread2.stop();
-
-                System.exit(0);
+                
+                FinalScreen fin = new FinalScreen(score);
+                fin.setVisible(true);
+                //System.exit(0);
+                timer.stop();
+                
             }
         });
         timer.start();
